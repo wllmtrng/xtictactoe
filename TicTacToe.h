@@ -19,14 +19,18 @@ class Engine;
 
 class TicTacToe: public UIComponent
 {
+    friend GameBoard;
+    friend Command;
+    friend Engine;
+
   public:
     TicTacToe(const std::string&, Widget);
-    virtual ~TicTacToe();
+    virtual ~TicTacToe(){};
     virtual const char* const className() {return "TicTacToe";}
 
   protected:
     GameBoard* gameBoard() const {return gameBoard_;}
-    Message* message() const {return msgArea_;}
+    Message* messageArea() const {return msgArea_;}
     Command* commandArea() const {return cmdArea_;}
     Engine* engine() const {return engine_;}
 

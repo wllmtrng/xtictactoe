@@ -10,11 +10,12 @@
 #include "GameBoard.h"
 #include "Engine.h"
 
-GameBoard::GameBoard(std::string& name, Widget parent, TicTacToe& game)
+GameBoard::GameBoard(const std::string& name,
+                     Widget             parent,
+                     TicTacToe* const   game)
     : UIComponent(name), game_(game)
 {
   XGCValues values;
-
   gridSize_ = 100;
 
   // Create an XmRowColumn widget to manage a 3x3
@@ -79,7 +80,7 @@ void GameBoard::highlightSquare(int position)
                 NULL);
 }
 
-void GameBoard::demphasizeSquare(int position)
+void GameBoard::deemphasizeSquare(int position)
 {
   // Make a square fade into the background by shutting
   // off the Motif 3-d effect

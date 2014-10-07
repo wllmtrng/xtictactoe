@@ -5,8 +5,14 @@
  *      Author: wtruong
  */
 
+#include "Xm/Form.h"
+#include "Xm/Separator.h"
+
 #include "TicTacToe.h"
 #include "GameBoard.h"
+#include "Engine.h"
+#include "Message.h"
+#include "Command.h"
 
 TicTacToe::TicTacToe(const std::string& name, Widget parent)
     : UIComponent(name)
@@ -23,14 +29,14 @@ TicTacToe::TicTacToe(const std::string& name, Widget parent)
                                      w_, NULL, 0);
   // Create the widgets for the UI Components
   msgArea_ = new Message("messages", w_);
-  cmdArea_ = new Command("commands", w_);
-  gameBoard_ = new GameBoard("gameBoard", w_);
+  cmdArea_ = new Command("commands", w_, this);
+  gameBoard_ = new GameBoard("gameBoard", w_, this);
 
   //Set up all constraints
 
   // The Gameboard is attached to the parent XmForm widget
   // on the top and sides; to an XmSeparator on the bottom
-  XtVaSetValues(gameboard_->baseWidget(),
+  XtVaSetValues(gameBoard_->baseWidget(),
                 XmNtopAttachment,    XmATTACH_FORM,
                 XmNleftAttachment,   XmATTACH_FORM,
                 XmNrightAttachment,  XmATTACH_FORM,
@@ -42,20 +48,21 @@ TicTacToe::TicTacToe(const std::string& name, Widget parent)
                 XmNtopAttachment,    XmATTACH_NONE,
                 XmNleftAttachment,   XmATTACH_FORM,
                 XmNrightAttachment,  XmATTACH_FORM,
-                XmNbottomWidget,     sep,
+                XmNbottomWidget,     msgArea_->baseWidget(),
                 XmNbottomAttachment, XmATTACH_WIDGET,
                 NULL);
   // Attach the Message component to the separator,
   // and span the width of the Form widget
-  XtVaSetValues(msgArea->baseWidget(),
+  XtVaSetValues(msgArea_->baseWidget(),
                 XmNtopAttachment,    XmATTACH_NONE,
                 XmNleftAttachment,   XmATTACH_FORM,
                 XmNrightAttachment,  XmATTACH_FORM,
-                XmNbottomAttachment, cmdArea_->baseWidget(),
+                XmNbottomWidget,     cmdArea_->baseWidget(),
+                XmNbottomAttachment, XmATTACH_WIDGET,
                 NULL);
   // Attach the Command component to the top, left, and right
   // sides of the form, so it floats along the top
-  XtVaSetValues(msgArea->baseWidget(),
+  XtVaSetValues(cmdArea_->baseWidget(),
                 XmNtopAttachment,    XmATTACH_NONE,
                 XmNleftAttachment,   XmATTACH_FORM,
                 XmNrightAttachment,  XmATTACH_FORM,
@@ -69,5 +76,4 @@ TicTacToe::TicTacToe(const std::string& name, Widget parent)
   msgArea_->manage();
   gameBoard_->clear();
 }
-
 

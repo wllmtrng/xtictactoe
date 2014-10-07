@@ -11,7 +11,7 @@ class UIComponent
     virtual void manage();
     virtual void unmanage();
     virtual const char* const className() { return "UIComponent"; }
-    const Widget BaseWidget() { return (w_); }
+    const Widget baseWidget() { return (w_); }
 
   protected:
     std::string name_;
